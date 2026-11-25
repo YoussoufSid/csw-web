@@ -157,7 +157,7 @@ textarea.copy{min-height:150px;font-size:14px}
 .menu{display:grid;grid-template-columns:1fr;gap:10px}@media(min-width:600px){.menu{grid-template-columns:1fr 1fr}}
 .mi{text-align:left;background:#fff;border:1px solid #e3e9e4;border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 3px #0000000d}
 .mi b{font-size:17.5px;color:var(--g)}.mi .ar{color:var(--mut);font-size:15px}.mi small{color:var(--mut);font-size:14px}
-.mi:active{background:#eef4ef}
+.mi:active{background:#eef4ef}.msec{margin:16px 2px 8px;font-size:15px;color:var(--g);font-weight:700}.msec .ar{color:var(--mut);font-weight:400}
 dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:8px 0 0}dl.kv dt{color:var(--mut);font-size:15px}dl.kv dd{margin:0;font-weight:700}
 .pr{width:44px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:17px;flex:none}
 .pr.P{background:var(--okb);color:var(--ok)}.pr.A{background:var(--no);color:#fff}.pr.R{background:#f2c46d;color:#6b4a0c}
@@ -1318,7 +1318,7 @@ VIEWS.notes=v=>{subNotes();const c=S.notesCls,cfg=matFor(c);if(!cfg.list.find(m=
  $("#nbul").onclick=()=>bulletinsPDF(c)};
 
 /* ---- Gestion (menu) ---- */
-VIEWS.plus=v=>{const need={suivi:"finance",recus:"finance",depenses:"finance",rapport:"finance",donnees:"finance",banque:"finance"};v.innerHTML=`${H("Gestion","الإدارة")}<div class="menu">${PLUS.filter(x=>(x[4]===true?can("admin"):x[4]?can(x[4]):true)&&(!need[x[0]]||can(need[x[0]]))).map(([k,fr,ar,d])=>`<button class="mi" data-go="${k}"><b>${fr}</b><span class="ar">${ar}</span><small>${d}</small></button>`).join("")}</div>
+VIEWS.plus=v=>{const need={suivi:"finance",recus:"finance",depenses:"finance",rapport:"finance",donnees:"finance",banque:"finance"};v.innerHTML=`${H("Gestion","الإدارة")}${(()=>{const vis=PLUS.filter(x=>x[0]!=="rapport"&&(x[4]===true?can("admin"):x[4]?can(x[4]):true)&&(!need[x[0]]||can(need[x[0]])));const SEC=[["💰 Argent","المال",["suivi","recus","depenses","banque","compte","grille","rappels"]],["🏫 École","المدرسة",["listes","matieres","edt","calendrier","messages","annee"]],["👥 Personnel","الموظفون",["personnel","presence","scan"]],["⚙️ Système","النظام",["donnees","comptes","journal"]]];const used=new Set();let h=SEC.map(([fr,ar,ks])=>{const it=ks.map(k=>vis.find(x=>x[0]===k)).filter(Boolean);it.forEach(x=>used.add(x[0]));return it.length?`<h3 class="msec">${fr} · <span class="ar">${ar}</span></h3><div class="menu">${it.map(([k,f,a,d])=>`<button class="mi" data-go="${k}"><b>${f}</b><span class="ar">${a}</span><small>${d}</small></button>`).join("")}</div>`:""}).join("");const rest=vis.filter(x=>!used.has(x[0]));if(rest.length)h+=`<div class="menu" style="margin-top:12px">${rest.map(([k,f,a,d])=>`<button class="mi" data-go="${k}"><b>${f}</b><span class="ar">${a}</span><small>${d}</small></button>`).join("")}</div>`;return h})()}
  ${duaBox()}<div class="row" style="margin:10px 0"><button class="btn" id="pinb">🔒 ${TT("Verrou de l'application (cet appareil)","قفل التطبيق (هذا الجهاز)")}</button></div><p class="note">${(()=>{try{return window.AndroidBridge&&AndroidBridge.appVersion?"v"+AndroidBridge.appVersion()+" · ":""}catch(e){return""}})()}${esc(FB.email)} · ${ROLES[ROLE]?ROLES[ROLE][0]:""} · Année scolaire ${YL}</p>`;bindGo(v);if($("#pinb"))$("#pinb").onclick=pinSetup;const e=v.querySelector('[data-go="export"]');if(e)e.onclick=exportExcel};
 
 /* Suivi */
