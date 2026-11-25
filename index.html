@@ -157,7 +157,7 @@ textarea.copy{min-height:150px;font-size:14px}
 .menu{display:grid;grid-template-columns:1fr;gap:10px}@media(min-width:600px){.menu{grid-template-columns:1fr 1fr}}
 .mi{text-align:left;background:#fff;border:1px solid #e3e9e4;border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 1px 3px #0000000d}
 .mi b{font-size:17.5px;color:var(--g)}.mi .ar{color:var(--mut);font-size:15px}.mi small{color:var(--mut);font-size:14px}
-.mi:active{background:#eef4ef}.msec{margin:16px 2px 8px;font-size:15px;color:var(--g);font-weight:700}.msec .ar{color:var(--mut);font-weight:400}
+.mi:active{background:#eef4ef}.qrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:8px;margin:10px 0}.qb{display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:1px solid #e3e9e4;border-radius:14px;padding:10px 4px;cursor:pointer;font:inherit}.qb span{font-size:22px}.qb b{font-size:13.5px;color:var(--g)}.qb small{color:var(--mut);font-size:12.5px}.qb:active{background:#eef4ef}.msec{margin:16px 2px 8px;font-size:15px;color:var(--g);font-weight:700}.msec .ar{color:var(--mut);font-weight:400}
 dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:8px 0 0}dl.kv dt{color:var(--mut);font-size:15px}dl.kv dd{margin:0;font-weight:700}
 .pr{width:44px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:17px;flex:none}
 .pr.P{background:var(--okb);color:var(--ok)}.pr.A{background:var(--no);color:#fff}.pr.R{background:#f2c46d;color:#6b4a0c}
@@ -1013,7 +1013,7 @@ VIEWS.dash=v=>{const sts=activeStudents(),m=S.month;let att=0,enc=0,nOk=0;const 
  const today=todayISO();let encToday=0,nToday=0;for(const p of S.pays.values())if(!p.annule&&p.date===today){encToday+=p.montant||0;nToday++}
  const fin=finMonth(m);let absToday=0;for(const d of S.abs.values())if(d.date===today)absToday+=Object.values(d.absents||{}).filter(x=>x==="A").length;
  const pct=att?Math.round(enc/att*100):0;
- v.innerHTML=`${staleNote()}${hero()}${smartAlerts()}${calCard()}<div class="card" style="padding:10px 12px">${monthSelect("dm")}</div>
+ v.innerHTML=`${staleNote()}${hero()}${(()=>{const L=[["payer","💵","Encaisser","دفع","pay"],["rappels","🔔","Rappels","تذكير","finance"],["recus","🧾","Reçus","وصولات","finance"],["banque","🏦","Banque","البنك","finance"],["listes","🖨","Imprimer","طباعة",""]].filter(x=>!x[4]||can(x[4]));return `<div class="qrow">${L.map(([k,i,f,a])=>`<button class="qb" data-go="${k}"><span>${i}</span><b>${f}</b><small class="ar">${a}</small></button>`).join("")}</div>`})()}${smartAlerts()}${calCard()}<div class="card" style="padding:10px 12px">${monthSelect("dm")}</div>
  <div class="kpis">
   <div class="kpi main"><span>Frais encaissés · المحصَّل</span><b>${F(enc)}</b><span>${pct}% de ${F(att)}</span></div>
   <div class="kpi"><span>Reste à encaisser · الباقي</span><b style="color:var(--no)">${F(Math.max(att-enc,0))}</b></div>
